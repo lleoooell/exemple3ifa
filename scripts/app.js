@@ -100,7 +100,7 @@ function submitForm(event) {
     bindList(newUser);
     console.log(data);
 
-}
+};
 
 function deleteEleve(event) {
     event.preventDefault();
@@ -122,9 +122,27 @@ function deleteEleve(event) {
     // var monuser = dataList[myIndex];
     // console.log(monuser);
 
-}
+};
 function editEleve(event){
 	console.log("edit");
 	document.getElementById("myForm").classList.toggle("show");
+	var myTarget = event.target.parentNode.parentNode;
+	console.log(myTarget);
+	var eleveId = myTarget.getAttribute("data-idEleve");
+    console.log(eleveId);
+    var myIndex = data.findIndex(function(i) {
+        return i.id === parseFloat(eleveId);
+    }); 
+    console.log(myIndex);
+	var monForm = document.getElementById("newUser").elements;
+	_.forIn(monForm, function(item) {
+        // console.log(item.value);
+        // console.log(item.name);
+        item.value = data[myIndex][item.name];
+        // newUser[item.name] = item.value;
 
-}
+    });
+
+
+
+};
