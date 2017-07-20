@@ -9,17 +9,38 @@ var monWrap = document.getElementById("wrap");
 // var monWrap = document.querySelector("div#wrap ul li.eleve");
 
 // function qui ajoute un li dans le ul, prends en paramètre l'objet eleve
-function bindList(eleve){
-	var monLi = document.createElement("li");
+function addBtnProfile(elem) {
+    var btnProfile = document.createElement("span");
+    btnProfile.classList.add("badge")
+    btnProfile.innerHTML = "<span class='glyphicon glyphicon-user' aria-hidden='true'></span>";
+    btnProfile.addEventListener("click", detectClick);
+    elem.appendChild(btnProfile);
+}
+
+function bindList(eleve) {
+    var monLi = document.createElement("li");
     monLi.innerHTML = eleve.nom + ' ' + eleve.prenom;
     // monLi.classList.add("eleve");
     monLi.classList.add("list-group-item");
     monLi.setAttribute("data-idEleve", eleve.id);
-    monLi.addEventListener("click", detectClick);
+
+    addBtnProfile(monLi);
+    var deleteBtn = document.createElement("span");
+    deleteBtn.classList.add("badge")
+    deleteBtn.innerHTML = "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>";
+    deleteBtn.addEventListener("click", deleteEleve);
+
+    monLi.appendChild(deleteBtn);
     monUl.appendChild(monLi);
 }
 
+function removeElem(elem){
+	// var query = "[data-ideleve=" + ideleve + "]"
+	// var doc = document.querySelectorAll(query);
+	// console.log(doc);
+	elem.remove();
 
+}
 data.forEach(function(eleve) {
     // console.log(eleve);
     bindList(eleve);
@@ -27,10 +48,12 @@ data.forEach(function(eleve) {
 monWrap.appendChild(monUl);
 
 function detectClick(event) {
+    event.preventDefault();
     // console.log(this);
     console.log(event);
     console.log(event.target);
-    var myTarget = event.target;
+    var myTarget = event.target.parentNode.parentNode;
+    console.log(myTarget);
     var eleveId = myTarget.getAttribute("data-idEleve");
     console.log(eleveId);
 
@@ -38,29 +61,51 @@ function detectClick(event) {
 }
 
 var monBtn = document.getElementById("addNew");
-monBtn.addEventListener("click", function(event){
-	document.getElementById("myForm").classList.toggle("show");
+monBtn.addEventListener("click", function(event) {
+    document.getElementById("myForm").classList.toggle("show");
 
 });
 
 
-function submitForm(event){
-	// event.preventDefault();
-	console.log("submitted");
-	var monForm = document.getElementById("newUser").elements;
-	var newUser = {
-		id : data.length + 1
-	};
-	console.log(typeof monForm);
-	// console.log( monForm[0]);
-	_.forIn(monForm, function(item) {
-	  console.log(item);
-	  newUser[item.name] = item.value;
+function submitForm(event) {
+    // event.preventDefault();
+    console.log("submitted");
+    var monForm = document.getElementById("newUser").elements;
+    var newUser = {
+        id: data.length + 1
+    };
+    console.log(typeof monForm);
+    // console.log( monForm[0]);
+    _.forIn(monForm, function(item) {
+        console.log(item);
+        newUser[item.name] = item.value;
 
-	});
-	console.log(newUser);
-	data.push(newUser);
-	bindList(newUser);
-	console.log(data);
-	
+    });
+    console.log(newUser);
+    data.push(newUser);
+    bindList(newUser);
+    console.log(data);
+
+}
+
+function deleteEleve(event) {
+    event.preventDefault();
+    console.log("delete");
+    console.log(event);
+    console.log(event.target);
+    var myTarget = event.target.parentNode.parentNode;
+    console.log(myTarget);
+    var eleveId = myTarget.getAttribute("data-ideleve");
+    console.log(eleveId)
+    var myIndex = data.findIndex(function(i) {
+        return i.id === eleveId
+    });
+    data.splice(myIndex, 1);
+    removeElem(myTarget);
+    // console.log(myIndex);
+
+    // // je cherche l'eleve correspondant a l'index
+    // var monuser = dataList[myIndex];
+    // console.log(monuser);
+
 }
