@@ -7,7 +7,7 @@ var data = srcListe;
 
 var monUl = document.createElement("ul");
 var monWrap = document.getElementById("wrap");
-monWrap.appendChild(monUl);
+// var monWrap = document.querySelector("div#wrap ul li.eleve");
 
 data.forEach(function(eleve) {
     // console.log(eleve);
@@ -18,6 +18,7 @@ data.forEach(function(eleve) {
    	monLi.addEventListener("click", detectClick);
     monUl.appendChild(monLi);
 });
+monWrap.appendChild(monUl);
 
 function detectClick(event){
 	// console.log(this);
@@ -27,6 +28,6 @@ function detectClick(event){
 	var eleveId = myTarget.getAttribute("data-idEleve");
 	console.log(eleveId);
 	
-	window.location = "/profil.html" +'#'+ myTarget.getAttribute("data-idEleve") ;
+	window.location = "./profil.html" +'#'+ myTarget.getAttribute("data-idEleve") ;
 }
 
