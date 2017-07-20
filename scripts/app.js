@@ -16,6 +16,20 @@ function addBtnProfile(elem) {
     btnProfile.addEventListener("click", detectClick);
     elem.appendChild(btnProfile);
 }
+function addBtnDelete(elem) {
+    var deleteBtn = document.createElement("span");
+    deleteBtn.classList.add("badge")
+    deleteBtn.innerHTML = "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>";
+    deleteBtn.addEventListener("click", deleteEleve);
+    elem.appendChild(deleteBtn);
+}
+function addBtnEdit(elem) {
+    var deleteEdit = document.createElement("span");
+    deleteEdit.classList.add("badge")
+    deleteEdit.innerHTML = "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>";
+    deleteEdit.addEventListener("click", editEleve);
+    elem.appendChild(deleteEdit);
+}
 
 function bindList(eleve) {
     var monLi = document.createElement("li");
@@ -25,12 +39,11 @@ function bindList(eleve) {
     monLi.setAttribute("data-idEleve", eleve.id);
 
     addBtnProfile(monLi);
-    var deleteBtn = document.createElement("span");
-    deleteBtn.classList.add("badge")
-    deleteBtn.innerHTML = "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>";
-    deleteBtn.addEventListener("click", deleteEleve);
+    addBtnDelete(monLi);
+    addBtnEdit(monLi);
+    
 
-    monLi.appendChild(deleteBtn);
+    // monLi.appendChild(deleteBtn);
     monUl.appendChild(monLi);
 }
 
@@ -45,6 +58,7 @@ data.forEach(function(eleve) {
     // console.log(eleve);
     bindList(eleve);
 });
+
 monWrap.appendChild(monUl);
 
 function detectClick(event) {
@@ -107,5 +121,10 @@ function deleteEleve(event) {
     // // je cherche l'eleve correspondant a l'index
     // var monuser = dataList[myIndex];
     // console.log(monuser);
+
+}
+function editEleve(event){
+	console.log("edit");
+	document.getElementById("myForm").classList.toggle("show");
 
 }
